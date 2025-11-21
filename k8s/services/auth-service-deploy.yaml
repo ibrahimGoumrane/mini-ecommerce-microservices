@@ -1,0 +1,22 @@
+apiVersion: apps/v1 # API version for Deployment
+kind: Deployment # Type of Kubernetes Object
+metadata:
+  name: auth-service # Deployment Name 
+spec:
+  replicas: 1 # Number of desired pods
+  selector:
+    matchLabels:
+      app: auth-service # Label from the deployment to match pods
+  template:
+    metadata:
+      labels:
+        app: auth-service # Labels for the pod
+    spec:
+      containers:
+        - name: auth-service
+          image: your-dockerhub/auth-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev

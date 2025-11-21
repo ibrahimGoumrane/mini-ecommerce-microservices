@@ -1,0 +1,14 @@
+replicaCount: 1
+
+auth:
+  username: admin
+  password: secret
+  erlangCookie: secretcookie
+
+service:
+  type: ClusterIP
+  port: 5672
+  managementPort: 15672
+
+persistence:
+  enabled: false
