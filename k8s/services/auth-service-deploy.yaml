@@ -20,3 +20,8 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: dev
+            - name: JWT_SECRET  
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_SECRET

@@ -9,45 +9,10 @@ spec:
     - host: localhost
       http:
         paths:
-          - path: /auth
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: auth-service
+                name: api-gateway
                 port:
-                  number: 8080
-          - path: /product
-            pathType: Prefix
-            backend:
-              service:
-                name: product-service
-                port:
-                  number: 8080
-          - path: /order
-            pathType: Prefix
-            backend:
-              service:
-                name: order-service
-                port:
-                  number: 8080
-          - path: /payment
-            pathType: Prefix
-            backend:
-              service:
-                name: payment-service
-                port:
-                  number: 8080
-          - path: /inventory
-            pathType: Prefix
-            backend:
-              service:
-                name: inventory-service
-                port:
-                  number: 8080
-          - path: /notification
-            pathType: Prefix
-            backend:
-              service:
-                name: notification-service
-                port:
-                  number: 8080
+                  number: 80
