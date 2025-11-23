@@ -1,7 +1,8 @@
 apiVersion: apps/v1 # API version for Deployment
 kind: Deployment # Type of Kubernetes Object
 metadata:
-  name: auth-service # Deployment Name 
+  name: auth-service # Deployment Name
+  namespace: microservices # Namespace where the deployment will be created
 spec:
   replicas: 1 # Number of desired pods
   selector:
@@ -14,14 +15,30 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: your-dockerhub/auth-service:latest
+          image: ibrahimlboss/auth-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: dev
-            - name: JWT_SECRET  
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://$(DB_HOST):$(DB_PORT)/$(DB_NAME_AUTH)?createDatabaseIfNotExist=true"
+            - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: jwt-secret
+                  name: microservices-secrets
+                  key: DB_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: microservices-secrets
+                  key: DB_PASS
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: microservices-secrets
                   key: JWT_SECRET
+            - name: SERVER_PORT
+              value: "8080"
+          envFrom:
+            - configMapRef:
+                name: microservices-config

@@ -21,7 +21,7 @@ import com.example.order_service.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
 

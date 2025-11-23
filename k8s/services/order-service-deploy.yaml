@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-service
+  namespace: microservices
 spec:
   replicas: 1
   selector:
@@ -14,9 +15,37 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: your-dockerhub/order-service:latest
+          image: ibrahimlboss/order-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: dev
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://$(DB_HOST):$(DB_PORT)/$(DB_NAME_ORDER)?createDatabaseIfNotExist=true"
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: microservices-secrets
+                  key: DB_USER
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: microservices-secrets
+                  key: DB_PASS
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef:
+                  name: microservices-secrets
+                  key: RABBITMQ_USER
+            - name: RABBITMQ_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: microservices-secrets
+                  key: RABBITMQ_PASS  
+            - name: SERVER_PORT
+              value: "8080"
+            - name: PRODUCT_SERVICE_URL
+              value: "http://product-service:8080"
+          envFrom:
+            - configMapRef:
+                name: microservices-config

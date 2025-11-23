@@ -1,12 +1,12 @@
 # Variables
 APP_NAME=product-service
 VERSION=0.0.1-SNAPSHOT
-REGISTRY_URL=ibrahimlboss
-IMAGE_NAME=$(REGISTRY_URL)/$(APP_NAME)
+REGISTRY=ibrahimlboss
+IMAGE_NAME=$(REGISTRY)/$(APP_NAME)
 JAR_FILE=target/$(APP_NAME)-$(VERSION).jar
 
 # Default target
-all: run-compose build jar docker run
+all: build jar docker run
 
 # 1️⃣ Build the project (Maven)
 build:
@@ -26,7 +26,7 @@ docker:
 # Run Docker container
 run:
 	@echo "🚀 Running Docker container..."
-	docker run -d --name $(APP_NAME) -p 8081:8081 $(IMAGE_NAME):latest	
+	docker run -d --name $(APP_NAME) -p 8082:8082 $(IMAGE_NAME):latest	
 
 # 4️⃣ Push Docker image (optional)
 push:

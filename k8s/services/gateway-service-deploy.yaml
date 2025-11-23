@@ -1,28 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-gateway
+  name: gateway-service
+  namespace: microservices
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: api-gateway
+      app: gateway-service
   template:
     metadata:
       labels:
-        app: api-gateway
+        app: gateway-service
     spec:
       containers:
-      - name: gateway
-        image: myregistry/api-gateway:latest
-        ports:
-        - containerPort: 8080
-        env:
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: jwt-secret
-              key: JWT_SECRET
-          # To generate the secret use:
-          # kubectl create secret generic jwt-secret \
-          # --from-literal=JWT_SECRET="your-very-secret-key"
+        - name: gateway-service
+          image: ibrahimlboss/gateway-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: microservices-secrets
+                  key: JWT_SECRET 

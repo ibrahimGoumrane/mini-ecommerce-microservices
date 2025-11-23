@@ -1,8 +1,8 @@
 # Variables
 APP_NAME=gateway-service
 VERSION=0.0.1-SNAPSHOT
-REGISTRY_URL=ibrahimlboss
-IMAGE_NAME=$(REGISTRY_URL)/$(APP_NAME)
+REGISTRY=ibrahimlboss
+IMAGE_NAME=$(REGISTRY)/$(APP_NAME)
 JAR_FILE=target/$(APP_NAME)-$(VERSION).jar
 
 # Default target

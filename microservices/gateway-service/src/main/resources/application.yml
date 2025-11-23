@@ -11,56 +11,29 @@ spring:
         - id: auth-service
           uri: http://auth-service:8080
           predicates:
-            - Path=/auth/**
+            - Path=/api/v1/auth/**
           filters:
-            - StripPrefix=0
-
-        # Inventory service (requires JWT)
-        - id: inventory-service
-          uri: http://inventory-service:8080
-          predicates:
-            - Path=/inventory/**
-          filters:
-            - JwtAuthenticationFilter
-            - StripPrefix=1
-
-        # Notification service (requires JWT)
-        - id: notification-service
-          uri: http://notification-service:8080
-          predicates:
-            - Path=/notifications/**
-          filters:
-            - JwtAuthenticationFilter
-            - StripPrefix=1
+            - StripPrefix=2   # remove /api/v1 before forwarding
 
         # Order service (requires JWT)
         - id: order-service
           uri: http://order-service:8080
           predicates:
-            - Path=/orders/**
+            - Path=/api/v1/orders/**
           filters:
             - JwtAuthenticationFilter
-            - StripPrefix=1
-
-        # Payment service (requires JWT)
-        - id: payment-service
-          uri: http://payment-service:8085
-          predicates:
-            - Path=/payments/**
-          filters:
-            - JwtAuthenticationFilter
-            - StripPrefix=1
+            - StripPrefix=2   # remove /api/v1 before forwarding
 
         # Product service (requires JWT)
         - id: product-service
-          uri: http://product-service:8086
+          uri: http://product-service:8080
           predicates:
-            - Path=/products/**
+            - Path=/api/v1/products/**
           filters:
             - JwtAuthenticationFilter
-            - StripPrefix=1
+            - StripPrefix=2   # remove /api/v1 before forwarding
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  secret: ${JWT_SECRET}
   expiration: 3600000
