@@ -1,0 +1,6 @@
+FROM openjdk:21-jdk
+WORKDIR /app
+COPY target/file-service-0.0.1-SNAPSHOT.jar app.jar
+RUN mkdir uploads
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
