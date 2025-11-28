@@ -7,7 +7,7 @@ SERVICES=auth-service gateway-service product-service order-service file-service
 # Default target
 # ==========================
 .PHONY: all
-all: build docker-compose-up
+all: build up
 
 # ==========================
 # 1️⃣ Build JARs for all services using their own Makefiles
@@ -34,16 +34,16 @@ docker-build:
 # ==========================
 # 3️⃣ Start Docker Compose stack
 # ==========================
-.PHONY: docker-compose-up
-docker-compose-up:
+.PHONY: up
+up:
 	@echo "🚀 Starting Docker Compose..."
 	docker compose up --build -d
 
 # ==========================
 # 4️⃣ Stop Docker Compose stack
 # ==========================
-.PHONY: docker-compose-down
-docker-compose-down:
+.PHONY: down
+down:
 	@echo "🛑 Stopping Docker Compose..."
 	docker compose down
 

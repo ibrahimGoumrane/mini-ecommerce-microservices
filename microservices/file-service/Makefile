@@ -26,7 +26,7 @@ docker:
 # Run Docker container
 run:
 	@echo "🚀 Running Docker container..."
-	docker run -d --name $(APP_NAME) -p 8082:8082 $(IMAGE_NAME):latest	
+	docker run -d --name $(APP_NAME) -p 8080:8080 $(IMAGE_NAME):latest	
 
 # 4️⃣ Push Docker image (optional)
 push:

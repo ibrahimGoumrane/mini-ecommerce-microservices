@@ -58,12 +58,12 @@ The system follows microservices architecture principles with:
 
 | Service                  | Description                                | Port | Database         |
 | ------------------------ | ------------------------------------------ | ---- | ---------------- |
-| **Auth Service**         | User authentication & JWT token management | 8081 | MySQL            |
-| **Product Service**      | Product catalog & management               | 8082 | MySQL/PostgreSQL |
-| **Inventory Service**    | Stock management & availability            | 8083 | MySQL/PostgreSQL |
-| **Order Service**        | Order processing & management              | 8084 | MySQL/PostgreSQL |
-| **Payment Service**      | Payment processing & transactions          | 8085 | MySQL/PostgreSQL |
-| **Notification Service** | Email/SMS notifications                    | 8086 | -                |
+| **Auth Service**         | User authentication & JWT token management | 8080 | MySQL            |
+| **Product Service**      | Product catalog & management               | 8080 | MySQL/PostgreSQL |
+| **Inventory Service**    | Stock management & availability            | 8080 | MySQL/PostgreSQL |
+| **Order Service**        | Order processing & management              | 8080 | MySQL/PostgreSQL |
+| **Payment Service**      | Payment processing & transactions          | 8080 | MySQL/PostgreSQL |
+| **Notification Service** | Email/SMS notifications                    | 8080 | -                |
 | **Gateway Service**      | API Gateway & routing                      | 8080 | -                |
 
 ## 🛠️ Technology Stack

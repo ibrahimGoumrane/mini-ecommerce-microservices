@@ -10,6 +10,13 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+    restart: unless-stopped
 
   auth-service:
     build: ./auth-service
@@ -20,7 +27,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - SERVER_PORT=8080
     depends_on:
-      - mysqlService
+      mysqlService:
+        condition: service_healthy
+    restart: unless-stopped
   gateway-service:
     build: ./gateway-service
     ports:
@@ -29,9 +38,15 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - SERVER_PORT=8080
     depends_on:
-      - auth-service
-      - product-service
-      - order-service
+      auth-service:
+        condition: service_started
+      product-service:
+        condition: service_started
+      order-service:
+        condition: service_started
+      file-service:
+        condition: service_started
+    restart: unless-stopped
   product-service:
     build: ./product-service
     environment:
@@ -45,7 +60,13 @@ services:
       - RABBITMQ_PASS=${RABBITMQ_PASS}
       - FILE_SERVICE_URL=${FILE_SERVICE_URL}
     depends_on:
-      - mysqlService
+      mysqlService:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      file-service:
+        condition: service_started
+    restart: unless-stopped
   order-service:
     build: ./order-service
     environment:
@@ -59,7 +80,11 @@ services:
       - RABBITMQ_PASS=${RABBITMQ_PASS}
       - PRODUCT_SERVICE_URL=http://product-service:8080
     depends_on:
-      - mysqlService
+      mysqlService:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
   file-service:
     build: ./file-service
     environment:
@@ -67,6 +92,7 @@ services:
       - FILE_UPLOAD_DIR=uploads
     volumes:
       - file_uploads:/app/uploads
+    restart: unless-stopped
   mysqlService:
     image: mysql:8.0
     container_name: mysql
@@ -74,6 +100,14 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASS}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
 
 volumes:
   rabbitmq_data:

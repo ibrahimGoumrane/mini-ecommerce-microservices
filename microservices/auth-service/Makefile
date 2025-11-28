@@ -25,7 +25,7 @@ docker:
 
 run:
 	@echo "🚀 Running Docker container..."
-	docker run -d --name $(APP_NAME) -p 8081:8081 -e JWT_SECRET=jIEV9Mqf0YgAgL44LINbpflARa/KVQ8zG0Dg2z1wHt4= $(IMAGE_NAME):latest
+	docker run -d --name $(APP_NAME) -p 8080:8080 -e JWT_SECRET=jIEV9Mqf0YgAgL44LINbpflARa/KVQ8zG0Dg2z1wHt4= $(IMAGE_NAME):latest
 
 # 4️⃣ Push Docker image (optional)
 push:

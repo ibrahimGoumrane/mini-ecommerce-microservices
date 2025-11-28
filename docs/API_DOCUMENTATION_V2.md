@@ -1411,9 +1411,9 @@ Tokens are obtained from the `/api/v1/auth/login` or `/api/v1/auth/register` end
 | Service         | Port |
 | --------------- | ---- |
 | Gateway         | 8080 |
-| Auth Service    | 8081 |
-| Product Service | 8082 |
-| Order Service   | 8083 |
-| File Service    | 8084 |
+| Auth Service    | 8080 |
+| Product Service | 8080 |
+| Order Service   | 8080 |
+| File Service    | 8080 |
 
 **Note:** All client requests should go through the Gateway (port 8080). Internal ports are used for inter-service communication.
